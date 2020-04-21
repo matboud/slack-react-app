@@ -4,11 +4,20 @@ body,
    height: 100vh;
    background: #ecf0f1;
    padding: 1em;
-};
+}
 
+/* Messages.js */
+.messages {
+   height: 440px;
+   overflow-y: scroll;
+}
 
-.smallProfilePicture {
-   width: 30px;
-   height: 30px;
-   background: red;
+/* MessageForm.js */
+.message__form {
+   position: fixed !important;
+   bottom: 1em;
+   margin-left: 348px !important;
+   left: 0;
+   right: 1em;
+   z-index: 200; 
 }

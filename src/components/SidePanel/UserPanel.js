@@ -47,7 +47,7 @@ class UserPanel extends Component {
             <Grid.Column>
                <Grid.Row style={{ padding: '1.2em', margin: 0 }}>
                   {/* MAIN APP HEADER */}
-                  <Header inverted floated='left' as="h1">
+                  <Header inverted floated='left' as="h2">
                      <Icon name="slack" />
                      <Header.Content>Slack</Header.Content>
                   </Header>

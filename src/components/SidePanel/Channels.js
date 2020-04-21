@@ -21,6 +21,10 @@ class Channels extends Component {
       this.addListener();
    }
 
+   componentWillUnmount() {
+      this.removeListener();
+   }
+
    addListener = () => {
       let loadedChannels = [];
 
@@ -30,6 +34,10 @@ class Channels extends Component {
             channels: loadedChannels,
          }, () => this.setFirstChannel());
       })
+   }
+
+   removeListener = () => {
+      this.state.channelRef.off();
    }
 
    setFirstChannel = () => {
