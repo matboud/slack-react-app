@@ -10,9 +10,8 @@ export default class MessageForm extends Component {
       loading: false,
       errors: []
    }
-
+ 
    handleChange = event => {
-      console.log('to know on change whats the event is', event);
       this.setState({ [event.target.name]: event.target.value });
    }
 
