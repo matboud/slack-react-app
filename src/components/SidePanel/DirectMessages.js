@@ -7,6 +7,7 @@ import { Menu, Icon } from 'semantic-ui-react';
 
 class DirectMessages extends Component {
    state = {
+      activeChannel: '',
       user: this.props.currentUser,
       users: [],
       usersRef: firebase.database().ref('users'),
@@ -87,6 +88,7 @@ class DirectMessages extends Component {
 
       this.props.setCurrentChannel(channelData);
       this.props.setPrivateChannel(true);
+      this.setActiveChannel(user.uid);
    }
 
    getChannelId = userId => {
@@ -94,9 +96,13 @@ class DirectMessages extends Component {
       return userId < currentUserId ? `${userId}/${currentUserId}` : `${currentUserId}/${userId}`
    }
 
+   setActiveChannel = (userId) => {
+      this.setState({ activeChannel: userId })
+   }
+
 
    render() {
-      const { users } = this.state;
+      const { users, activeChannel } = this.state;
       return (
          <Menu.Menu className="menu">
             <Menu.Item>
@@ -112,6 +118,7 @@ class DirectMessages extends Component {
                      key={user.uid}
                      onClick={() => this.changeChannel(user)}
                      style={{ opacity: 0.7, fontStyle: 'italic' }}
+                     active={user.uid === activeChannel}
                   >
                      <Icon
                         name="circle"
@@ -128,4 +135,4 @@ class DirectMessages extends Component {
 }
 
 
-export default connect(null, {setCurrentChannel, setPrivateChannel})(DirectMessages);
+export default connect(null, { setCurrentChannel, setPrivateChannel })(DirectMessages);
