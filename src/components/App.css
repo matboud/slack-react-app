@@ -47,3 +47,22 @@ body,
 .menu{
    padding-bottom: 2em;
 }
+
+.color__container{
+   cursor: pointer;
+   position: relative;
+   overflow: hidden;
+   width: 35px;
+   border-radius: 3px;
+}
+
+.color__squar {
+   width: 35px;
+   height: 35px;
+}
+
+.color__overlay {
+   width: 85px;
+   height: 35px;
+   transform: rotate(225deg);
+}
