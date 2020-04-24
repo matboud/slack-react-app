@@ -4,6 +4,9 @@ import firebase from "../../firebase";
 import MessagesHeader from "./MessagesHeader";
 import MessageForm from "./MessageForm";
 import Message from "./Message";
+import { connect } from 'react-redux';
+import { setUserPosts } from '../../actions';
+
 class Messages extends React.Component {
    state = {
       privateChannel: this.props.isPrivateChannel,
@@ -44,21 +47,23 @@ class Messages extends React.Component {
             messagesLoading: false
          });
          this.countUniqueUsers(loadedMessages);
+         // this function to get the top posters of the channel
+         this.countUniquePosts(loadedMessages)
       });
    };
 
    addUserStarsListener = (channelId, userId) => {
       this.state.usersRef
-      .child(userId)
-      .child('starred')
-      .once('value')
-      .then(data => {
-         if(data.val() !== null) {
-            const channelIds = Object.keys(data.val());
-            const prevStarred = channelIds.includes(channelId);
-            this.setState({isChannelStarred: prevStarred});
-         }
-      })
+         .child(userId)
+         .child('starred')
+         .once('value')
+         .then(data => {
+            if (data.val() !== null) {
+               const channelIds = Object.keys(data.val());
+               const prevStarred = channelIds.includes(channelId);
+               this.setState({ isChannelStarred: prevStarred });
+            }
+         })
    }
 
    getMessagesRef = () => {
@@ -103,6 +108,23 @@ class Messages extends React.Component {
       const numUniqueUsers = `${uniqueUsers.length} user${plural ? "s" : ""}`;
       this.setState({ numUniqueUsers });
    };
+
+   countUniquePosts = messages => {
+      let userPosts = messages.reduce((acc, message) => {
+         if (message.user.name in acc) {
+            acc[message.user.name].count += 1;
+         } else {
+            acc[message.user.name] = {
+               avatar: message.user.avatar,
+               count: 1
+            }
+         }
+         return acc
+      }, {});
+      // putting result in the global State
+
+      this.props.setUserPosts(userPosts);
+   }
 
    displayMessages = messages =>
       messages.length > 0 &&
@@ -186,4 +208,4 @@ class Messages extends React.Component {
       );
    }
 }
-export default Messages;
+export default connect(null, {setUserPosts})(Messages);
