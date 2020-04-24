@@ -1,12 +1,46 @@
 import React, { Component } from 'react'
 import { Menu, Icon } from 'semantic-ui-react';
-import {connect} from 'react-redux';
-import {setCurrentChannel, setPrivateChannel} from '../../actions';
+import { connect } from 'react-redux';
+import firebase from '../../firebase';
+import { setCurrentChannel, setPrivateChannel } from '../../actions';
 
 class Starred extends Component {
    state = {
+      user: this.props.currentUser,
+      usersRef: firebase.database().ref('users'),
       activeChannel: '',
       starredChannels: []
+   }
+
+   componentDidMount() {
+      if (this.state.user) {
+         this.addListeners(this.state.user.uid);
+      }
+   }
+
+   addListeners = (userId) => {
+      // listen to when starred channel
+      this.state.usersRef
+         .child(userId)
+         .child('starred')
+         .on('child_added', snap => {
+            const starredChannel = {id: snap.key, ...snap.val()};
+            this.setState({
+               starredChannels: [...this.state.starredChannels, starredChannel]
+            });
+         });
+
+      // listen to when unstarred channel
+      this.state.usersRef
+         .child(userId)
+         .child('starred')
+         .on('child_removed', snap => {
+            const channelToRemove = {id: snap.key, ...snap.val()};
+            const filteredChannels = this.state.starredChannels.filter(channel => {
+               return channel.id !== channelToRemove.id;
+            });
+            this.setState({starredChannels: filteredChannels});
+         })
    }
 
    setActiveChannel = channel => {
@@ -21,8 +55,8 @@ class Starred extends Component {
 
 
    displayChannels = starredChannels =>
-   starredChannels.length > 0 &&
-   starredChannels.map(channel => (
+      starredChannels.length > 0 &&
+      starredChannels.map(channel => (
          <Menu.Item
             key={channel.id}
             onClick={() => this.changeChannel(channel)}
@@ -30,8 +64,8 @@ class Starred extends Component {
             style={{ opacity: 0.7 }}
             active={channel.id === this.state.activeChannel}
          >
-           
-     # {channel.name}
+
+            # {channel.name}
          </Menu.Item>
       ));
 
@@ -52,4 +86,4 @@ class Starred extends Component {
    }
 }
 
-export default connect(null, {setCurrentChannel, setPrivateChannel })(Starred)
+export default connect(null, { setCurrentChannel, setPrivateChannel })(Starred)
