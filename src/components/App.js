@@ -9,7 +9,7 @@ import SidePanel from './SidePanel/SidePanel';
 import Messages from './Messages/Messages';
 import MetalPanel from './MetalPanel/MetalPanel';
 
-const App = ({ currentUser, currentChannel, setPrivateChannel }) => (
+const App = ({ currentUser, currentChannel, isPrivateChannel }) => (
    <Grid columns="equal" className="app" style={{ background: '#eee' }}>
       <ColorPanel />
       <SidePanel
@@ -22,7 +22,7 @@ const App = ({ currentUser, currentChannel, setPrivateChannel }) => (
             key={currentChannel && currentChannel.id}
             currentChannel={currentChannel}
             currentUser={currentUser}
-            setPrivateChannel={setPrivateChannel}
+            isPrivateChannel={isPrivateChannel}
          />
       </Grid.Column>
 
