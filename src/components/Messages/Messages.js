@@ -38,6 +38,17 @@ class Messages extends React.Component {
       }
    }
 
+   // keep scroll at bottom whenever we get a new message 
+   componentDidUpdate(prevProps, prevState) {
+      if (this.messagesEnd) {
+         this.scrollToBottom();
+      }
+   }
+
+   scrollToBottom = () => {
+      this.messagesEnd.scrollIntoView({ behavior: 'smooth' })
+   }
+
    addListeners = channelId => {
       this.addMessageListener(channelId);
       this.addTypingListeners(channelId);
@@ -256,7 +267,7 @@ class Messages extends React.Component {
                   {
                      this.displayTypingUsers(typingUsers)
                   }
-
+                  <div ref={node => (this.messagesEnd = node)}></div>
                </Comment.Group>
             </Segment>
             <MessageForm
