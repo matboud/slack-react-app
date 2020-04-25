@@ -28,7 +28,7 @@ class DirectMessages extends Component {
 
    removeListeners = () => {
       this.state.usersRef.off();
-      this.statepresenceRef.off();
+      this.state.presenceRef.off();
       this.state.connectedRef.off();
    }
 
