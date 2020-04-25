@@ -2,7 +2,7 @@
 
 in this project i ll be trying to simulate slack chat platform where i ll try to manage the backEnd part using Firebase and the front end part using React
 
-#What you ll be able to do in this project:
+##What you ll be able to do in this project:
 
 in this app you have the ability to :
 create a channel, 
