@@ -22,6 +22,16 @@ class DirectMessages extends Component {
       }
    }
 
+   componentWillUnmount() {
+      this.removeListeners();
+   }
+
+   removeListeners = () => {
+      this.state.usersRef.off();
+      this.statepresenceRef.off();
+      this.state.connectedRef.off();
+   }
+
    addListeners = currentUserUid => {
       let loadedUsers = [];
 
