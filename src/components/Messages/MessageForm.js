@@ -40,7 +40,7 @@ class MessageForm extends React.Component {
   };
 
   handleKeyDown = event => {
-    if (event.ctrlKey && event.keyCode === 13) {
+    if (event.keyCode === 13) {
       this.sendMessage();
     }
 
